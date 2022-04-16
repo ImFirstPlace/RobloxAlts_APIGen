@@ -85,7 +85,7 @@ $(document).ready(function () {
         
         $.ajax({
             type: "POST",
-            url: "https://accounts.robloxalts.info/api/public/demand/generate",
+            url: "http://accounts.robloxalts.info/api/public/demand/generate",
             data: `{"apikey":"${formData[0][1]}","amount":${parseInt(formData[1][1])}}`,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
