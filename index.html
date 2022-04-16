@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Gen</title>
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script src="./main.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="genBox">
+        <h1>API Generator</h1>
+        <form id="mainForm" name="mainForm">
+            <label for="gkey">API Key</label><br>
+            <input name="gkey" type="text" id="gkey" required readonly> <button id="gkeybtn" type="button"
+                onclick="gkeyButtonSubmit()">Edit key</button><br>
+            <label for="anumber">Generate Amount</label><br>
+            <input name="anumber" type="number" id="anumber" value="1" min="1" required><br>
+            <input type="submit" value="Generate">
+            <button id="HOToggle" type="button" onclick="toggleHistoryOutput()">History</button>
+        </form>
+        <br>
+
+        
+        <div id="outputDiv">
+            <p>OUTPUT</p>
+            <table id="outputTable" class="center">
+                <tbody>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Combination</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="historyDiv" hidden>
+            <p>HISTORY</p>
+            <table id="historyTable" class="center">
+                <tbody>
+                    <tr>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Combination</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
