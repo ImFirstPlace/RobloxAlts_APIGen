@@ -9,8 +9,8 @@ function apiSuccess(data) {
     if (data.success) {
 
         data.accounts.forEach(account => {
-            insertIntoTables(account)
             savedAccs.accounts.push(account)
+            insertIntoTables(account)
         });
         $('#outputRemaining').html(`Accounts Left: ${data.accountsleft}`)
     } else {
