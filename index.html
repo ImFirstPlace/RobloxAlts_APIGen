@@ -21,14 +21,15 @@
                 onclick="gkeyButtonSubmit()">Edit key</button><br>
             <label for="anumber">Generate Amount</label><br>
             <input name="anumber" type="number" id="anumber" value="1" min="1" required><br>
-            <input type="submit" value="Generate">
+            <input id="submitBtn" type="submit" value="Generate">
             <button id="HOToggle" type="button" onclick="toggleHistoryOutput()">History</button>
         </form>
         <br>
 
         
         <div id="outputDiv">
-            <p>OUTPUT</p>
+            <h2>OUTPUT</h2>
+            <p id="outputRemaining"></p>
             <table id="outputTable" class="center">
                 <tbody>
                     <tr>
@@ -41,7 +42,8 @@
         </div>
 
         <div id="historyDiv" hidden>
-            <p>HISTORY</p>
+            <h2>HISTORY</h2>
+            <p id="historyTotal">Total: </p>
             <table id="historyTable" class="center">
                 <tbody>
                     <tr>

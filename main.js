@@ -5,11 +5,14 @@ if (localStorage.getItem("generatedAccs") === null) {
 }
 
 function apiSuccess(data) {
+    loadButton(false)
     if (data.success) {
+
         data.accounts.forEach(account => {
             insertIntoTables(account)
             savedAccs.accounts.push(account)
         });
+        $('#outputRemaining').html(`Accounts Left: ${data.accountsleft}`)
     } else {
         console.log(data.reason)
         return alert(`API Error: ${data.reason}`)
@@ -37,6 +40,7 @@ function insertIntoTables(account, historyOnly) {
     h_cell1.innerHTML = account.username
     h_cell2.innerHTML = account.password
     h_cell3.innerHTML = `${account.username}:${account.password}`
+    $('#historyTotal').html(`Total: ${savedAccs.accounts.length}`)
 }
 
 function gkeyButtonSubmit() {
@@ -46,7 +50,6 @@ function gkeyButtonSubmit() {
     } else {
         $('#gkey').prop("readonly", true)
         $('#gkeybtn').html("Edit key")
-        console.log($('#gkey').val())
         localStorage.setItem("APIKey", $('#gkey').val())
     }
 }
@@ -63,6 +66,17 @@ function toggleHistoryOutput() {
     }
 }
 
+function loadButton(toggle) {
+    if (toggle) {
+        $('#submitBtn')[0].value = "Loading..."
+        $('#submitBtn').prop("disabled", true)
+    } else {
+        $('#submitBtn')[0].value = "Generate"
+        $('#submitBtn').prop("disabled", false)
+    }
+}
+
+
 $(document).ready(function () {
     var outputTable = $('#outputTable')[0]
     var historyTable = $('#historyTable')[0]
@@ -76,13 +90,19 @@ $(document).ready(function () {
     $('#gkey').val(localStorage.getItem("APIKey"))
     $('form').on('submit', function (e) {
         e.preventDefault();
-        
+        loadButton(true)
+        let formData = Array.from(new FormData(e.target))
+
         if (!$('#gkey')[0].readOnly) {
+            loadButton(false)
             return alert("Please save your API key")
         }
-        let formDataRaw = new FormData(e.target);
-        let formData = Array.from(formDataRaw)
         
+        if (formData[0][1] === "") {
+            loadButton(false)
+            return alert("Please provide an API key")
+        }
+
         $.ajax({
             type: "POST",
             url: "http://accounts.robloxalts.info/api/public/demand/generate",
@@ -92,10 +112,13 @@ $(document).ready(function () {
             success: apiSuccess,
             error: function (err) {
                 console.log(err)
+                loadButton(false)
                 if (err.responseJSON?.reason) {
-                    alert(`API Error: ${err.responseJSON.reason}`)
+                    alert(`API Error: ${err.responseJSON.reason} \n\nHTTP: ${err.status} (${err.statusText})`)
                 } else if (err.status === 404) {
                     return alert("The server is offline")
+                } else if (err.readyState === 4) {
+                    return alert(`HTTP: ${err.status} (${err.statusText})`)
                 } else {
                     return alert("An unknown error occured")
                 }
